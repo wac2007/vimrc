@@ -1,4 +1,3 @@
-" Don't try to be vi compatible
 set nocompatible
 
 " Helps force plugins to load correctly when it is turned back on below
@@ -71,6 +70,7 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'Valloric/MatchTagAlways'
 
 " vim-commentary
+" gcc command
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 
@@ -302,5 +302,9 @@ let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " Vim Swaplines
 " Line up
-noremap <leader>k :SwapUp
-noremap <leader>j :SwapDown
+map <C-k> :SwapUp<CR>
+map <C-j> :SwapDown<CR>
+
+" vim-commentary
+" Ctrl + /
+map <C-_> gcc

@@ -25,5 +25,6 @@ cp .vimrc ~/.vimrc
 vim +PlugInstall +qall
 
 # Installing youcompleteme completers
-~/.vim/plugged/youcompleteme/install.py --all
+~/.vim/plugged/youcompleteme/install.py --go-completer --ts-completer
 
+# vim +Source ~/.vimrc
