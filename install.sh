@@ -1,30 +1,57 @@
 #!/bin/bash
+# echo 'Please select your vim type:'
+PS3="Please select your vim type: "
+options=(vim neovim)
+selected=""
+select menu in "${options[@]}"; do
+    selected=$menu
+    break
+done
 
-# Install "vim-plug" plugin manager
-# https://github.com/junegunn/vim-plug
+echo -e "\npicked ($selected)"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+    # Install build files to youcompleteme
+    sudo apt install cmake python3-dev build-essential golang
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    brew install cmake python go
+elif [[ "$OSTYPE" == "cygwin" ]]; then
+    echo "Not supported!"
+    exit 3
+elif [[ "$OSTYPE" == "msys" ]]; then
+    echo "Not supported!"
+    exit 3
+elif [[ "$OSTYPE" == "win32" ]]; then
+    echo "Not supported!"
+    exit 3
+elif [[ "$OSTYPE" == "freebsd"* ]]; then
+    echo "Not supported!"
+    exit 1
+else
+    echo "Not supported!"
+    exit 3
+fi
 
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-# Install build files to youcompleteme
-sudo apt install cmake python3-dev build-essential golang
-
-# Copying files
-
+# Copying vim config file
 cp .vimrc ~/.vimrc
 
-# ftplugin folder
-# FTPF=~/.vim/ftplugin
-# mkdir -p $FTPF
+vimpath=""
+# if [ "$selected" == "vim" ]; then
+#   vimpath="$HOME/.vimrc"
+if [ "$selected" == "neovim" ]; then
+    vimpath="$HOME/.config/nvim"
+    mkdir -p "$vimpath"
+    cp nvim.vim "$vimpath/init.vim"
+fi
 
-# cp ftplugin/typescriptreact.vim $FTPF/typescriptreact.vim
-# cp ftplugin/typescript.vim $FTPF/typescript.vim
-# cp ftplugin/javascript.vim $FTPF/javascript.vim
-
-# Installing
-vim +PlugInstall +qall
+# Install "nvim-plug" plugin manager
+if [ "$selected" == "vim" ]; then
+    vim +PlugInstall +qall
+elif [ "$selected" == "neovim" ]; then
+    nvim +PlugInstall +qall
+fi
 
 # Installing youcompleteme completers
-~/.vim/plugged/youcompleteme/install.py --go-completer --ts-completer
-
-# vim +Source ~/.vimrc
+# ~/.vim/plugged/youcompleteme/install.py --go-completer --ts-completer
+echo -e "\n\n\n\n===========================================\n"
+echo -e "Disclaimers: \n"
+echo -e "Run \":Copilot setup\" to login copilot with your github account (neovim only)"
